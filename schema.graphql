@@ -1,0 +1,47 @@
+type ActiveItem @entity {
+  id: ID!
+  buyer: Bytes! # Address. it can be 0x0000.. if no one has bought yet
+  seller: Bytes!
+  nftAddress: Bytes!
+  tokenId: BigInt!
+  price: BigInt #price we're gonna leave it as not required (without !). makes sense cuz ItemCanceled has no price, and we're gonna create ActiveItem from the other events
+}
+
+type ItemListed @entity {
+  id: ID!
+  seller: Bytes! # address
+  nftAddress: Bytes! # address
+  tokenId: BigInt! # uint256
+  price: BigInt # uint256
+}
+
+type ItemCanceled @entity {
+  id: ID!
+  seller: Bytes! # address
+  nftAddress: Bytes! # address
+  tokenId: BigInt # uint256
+}
+
+type ItemBought @entity {
+  id: ID!
+  buyer: Bytes! # address
+  nftAddress: Bytes! # address
+  tokenId: BigInt! # uint256
+  price: BigInt # uint256
+}
+
+# Here we define what we want our subgraph to keep track of
+
+# Remember: Every time we update this schema.graphql file, we'll want to call "graph codegen" to update the generated files
+
+# This schema.graphql defines the different tables or "variables" on the graph that we can actually query on
+# This are gonna be our events plus that activeItem table that we also created in moralis (that has the active listed nfts)
+# Inside each one of this, you define which parameters they have, and their type.
+# Like "id: ID!" , "name of the parameter: type of the parameter" we can read about different types in the graph documentation
+# "!" means it must have that parameter. That "ActiveItem" must have that parameter id for example
+# The ActiveItem table we're gonna create, the other 3 are gonna come from the events of our contract
+
+# We added a extension for graphql, its written in the excel and the link is in the github repo
+# Patrick deleted the only object that was here written for him in start and started typing from blank.
+# Mine already had 3 objects of the 3 events (I think because I chose an option to treat the events as entities when initializing and patrick didnt had that option, and its a new version of the graph)
+# I ended up just making some changes to the boilerplate that it started
